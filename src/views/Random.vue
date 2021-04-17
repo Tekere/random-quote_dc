@@ -1,6 +1,24 @@
 <template>
   <div class="ly_page">
-    <!-- <a href="" class="el_randomBtn">Random</a> -->
+    <div class="bl_randomBtn">
+      <a href="" class="bl_randomBtn_link"
+        >random<svg
+          stroke="currentColor"
+          fill="none"
+          stroke-width="0"
+          viewBox="0 0 24 24"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          ></path></svg
+      ></a>
+    </div>
     <div class="ly_cont">
       <div class="bl_quote_wrapper">
         <p class="bl_quote bl_quote__leftLine">
@@ -10,12 +28,12 @@
           before, and it was done spit spot with very little national debate.”
         </p>
       </div>
-      <!-- <div class="bl_author_wrapper">
+      <div class="bl_author_wrapper">
         <div class="bl_author">
           <p class="bl_author_name">Bill Gates</p>
           <span class="bl_author_category">business</span>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -31,17 +49,30 @@ export default defineComponent({
 <style lang="scss">
 .ly_page {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 .ly_cont {
-  position: relative;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  // box-align: center;
+  align-items: center;
+}
+.bl_randomBtn {
+  margin: 2rem 4rem 0 0;
+  text-align: right;
+  .bl_randomBtn_link {
+    color: #000;
+    text-decoration: none;
+    svg {
+      position: absolute;
+    }
+  }
 }
 .bl_quote_wrapper {
   width: 820px;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 .bl_quote {
   font-size: 36px;
@@ -51,5 +82,24 @@ export default defineComponent({
 .bl_quote__leftLine {
   padding-left: 6rem;
   border-left: 8px solid #f7df94;
+}
+.bl_author_wrapper {
+  margin-top: 2rem;
+  padding: 4rem 2rem;
+  width: 820px;
+  box-sizing: border-box;
+  &:hover {
+    background-color: #000;
+    color: #fff;
+  }
+  .bl_author_name {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .bl_author_category {
+    display: block;
+    margin-top: 0.5rem;
+    font-weight: 100;
+  }
 }
 </style>
