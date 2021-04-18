@@ -1,7 +1,8 @@
 <template>
-  <div class="ly_page">
+  <Loading v-if="isLoading"></Loading>
+  <div v-else class="ly_page">
     <div class="bl_randomBtn">
-      <a href="" class="bl_randomBtn_link"
+      <a href="" @click.prevent="getRandomQuote" class="bl_randomBtn_link"
         >random<svg
           stroke="currentColor"
           fill="none"
@@ -21,17 +22,34 @@
     </div>
     <div class="ly_cont">
       <div class="bl_quote_wrapper">
-        <p class="bl_quote bl_quote__leftLine">
-          “By the time Obama came into office, Washington had already agreed
-          over a period of a few weeks to a $700 billion government infusion
-          into the world banking system. Nothing of the sort had ever been done
-          before, and it was done spit spot with very little national debate.”
-        </p>
+        <p class="bl_quote bl_quote__leftLine">“{{ quote.quoteText }}”</p>
       </div>
       <div class="bl_author_wrapper">
         <div class="bl_author">
-          <p class="bl_author_name">Bill Gates</p>
-          <span class="bl_author_category">business</span>
+          <p class="bl_author_name">{{ quote.quoteAuthor }}</p>
+          <span class="bl_author_category">{{ quote.quoteGenre }}</span>
+          <svg
+            stroke="currentColor"
+            fill="currentColor"
+            stroke-width="0"
+            viewBox="0 0 16 16"
+            color="#000000"
+            height="24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+            style="color: rgb(0, 0, 0)"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10.146 4.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L12.793 8l-2.647-2.646a.5.5 0 010-.708z"
+              clip-rule="evenodd"
+            ></path>
+            <path
+              fill-rule="evenodd"
+              d="M2 8a.5.5 0 01.5-.5H13a.5.5 0 010 1H2.5A.5.5 0 012 8z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
         </div>
       </div>
     </div>
@@ -39,11 +57,43 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
+import axios from 'axios'
+import Loading from '@/components/Loading.vue'
+// dataの型
+interface Data {
+  quote: string
+  isLoading: boolean
+}
 
 export default defineComponent({
   name: 'Random',
-});
+  components: {
+    Loading,
+  },
+  data() {
+    return {
+      quote: '',
+      isLoading: true,
+    } as Data
+  },
+  created() {
+    this.getRandomQuote()
+  },
+  methods: {
+    getRandomQuote(): void {
+      this.isLoading = true
+      axios
+        .get('https://quote-garden.herokuapp.com/api/v3/quotes/random')
+        .then((res) => {
+          this.quote = res.data.data[0]
+        })
+        .then(() => {
+          this.isLoading = false
+        })
+    },
+  },
+})
 </script>
 
 <style lang="scss">
@@ -88,9 +138,22 @@ export default defineComponent({
   padding: 4rem 2rem;
   width: 820px;
   box-sizing: border-box;
+  cursor: pointer;
   &:hover {
-    background-color: #000;
+    background-color: #333333;
     color: #fff;
+    .bl_author svg {
+      color: #fff !important;
+    }
+  }
+  .bl_author {
+    position: relative;
+    svg {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0;
+    }
   }
   .bl_author_name {
     font-size: 24px;
@@ -99,7 +162,7 @@ export default defineComponent({
   .bl_author_category {
     display: block;
     margin-top: 0.5rem;
-    font-weight: 100;
+    font-size: 0.87rem;
   }
 }
 </style>
