@@ -24,7 +24,10 @@
       <div class="bl_quote_wrapper">
         <p class="bl_quote bl_quote__leftLine">“{{ quote.quoteText }}”</p>
       </div>
-      <div class="bl_author_wrapper">
+      <router-link
+        :to="{ path: '/author', params: { authorName: quote.quoteAuthor } }"
+        class="bl_author_wrapper"
+      >
         <div class="bl_author">
           <p class="bl_author_name">{{ quote.quoteAuthor }}</p>
           <span class="bl_author_category">{{ quote.quoteGenre }}</span>
@@ -51,7 +54,7 @@
             ></path>
           </svg>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -60,11 +63,6 @@
 import { defineComponent } from 'vue'
 import axios from 'axios'
 import Loading from '@/components/Loading.vue'
-// dataの型
-interface Data {
-  quote: string
-  isLoading: boolean
-}
 
 export default defineComponent({
   name: 'Random',
@@ -75,7 +73,7 @@ export default defineComponent({
     return {
       quote: '',
       isLoading: true,
-    } as Data
+    }
   },
   created() {
     this.getRandomQuote()
@@ -134,6 +132,9 @@ export default defineComponent({
   border-left: 8px solid #f7df94;
 }
 .bl_author_wrapper {
+  display: block;
+  color: #000;
+  text-decoration: none;
   margin-top: 2rem;
   padding: 4rem 2rem;
   width: 820px;
