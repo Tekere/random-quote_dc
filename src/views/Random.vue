@@ -24,37 +24,38 @@
       <div class="bl_quote_wrapper">
         <p class="bl_quote bl_quote__leftLine">“{{ quote.quoteText }}”</p>
       </div>
-      <router-link
-        :to="{ path: '/author', params: { authorName: quote.quoteAuthor } }"
-        class="bl_author_wrapper"
-      >
-        <div class="bl_author">
-          <p class="bl_author_name">{{ quote.quoteAuthor }}</p>
-          <span class="bl_author_category">{{ quote.quoteGenre }}</span>
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            stroke-width="0"
-            viewBox="0 0 16 16"
-            color="#000000"
-            height="24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-            style="color: rgb(0, 0, 0)"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10.146 4.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L12.793 8l-2.647-2.646a.5.5 0 010-.708z"
-              clip-rule="evenodd"
-            ></path>
-            <path
-              fill-rule="evenodd"
-              d="M2 8a.5.5 0 01.5-.5H13a.5.5 0 010 1H2.5A.5.5 0 012 8z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </div>
-      </router-link>
+      <div class="bl_author_wrapper">
+        <router-link
+          :to="{ name: 'Author', params: { authorName: quote.quoteAuthor } }"
+        >
+          <div class="bl_author">
+            <p class="bl_author_name">{{ quote.quoteAuthor }}</p>
+            <span class="bl_author_category">{{ quote.quoteGenre }}</span>
+            <svg
+              stroke="currentColor"
+              fill="currentColor"
+              stroke-width="0"
+              viewBox="0 0 16 16"
+              color="#000000"
+              height="24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+              style="color: rgb(0, 0, 0)"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10.146 4.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L12.793 8l-2.647-2.646a.5.5 0 010-.708z"
+                clip-rule="evenodd"
+              ></path>
+              <path
+                fill-rule="evenodd"
+                d="M2 8a.5.5 0 01.5-.5H13a.5.5 0 010 1H2.5A.5.5 0 012 8z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -133,16 +134,20 @@ export default defineComponent({
 }
 .bl_author_wrapper {
   display: block;
-  color: #000;
-  text-decoration: none;
   margin-top: 2rem;
   padding: 4rem 2rem;
   width: 820px;
   box-sizing: border-box;
   cursor: pointer;
+  & > a {
+    color: #000;
+    text-decoration: none;
+  }
   &:hover {
     background-color: #333333;
-    color: #fff;
+    & > a {
+      color: #fff;
+    }
     .bl_author svg {
       color: #fff !important;
     }
