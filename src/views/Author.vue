@@ -1,6 +1,6 @@
 <template>
   <Loading v-if="isLoading"></Loading>
-  <div else class="ly_page ly_page_author">
+  <div v-else class="ly_page ly_page_author" v-cloak>
     <div class="bl_author_name_wrapper">
       <h1 class="bl_author_name">{{ $route.params.authorName }}</h1>
     </div>
@@ -55,6 +55,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+[v-cloak] {
+  display: none;
+}
 .ly_page_author {
   height: auto;
   padding-top: 100px;
