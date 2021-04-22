@@ -26,7 +26,10 @@
       </div>
       <div class="bl_author_wrapper">
         <router-link
-          :to="{ name: 'Author', params: { authorName: quote.quoteAuthor } }"
+          :to="{
+            name: 'Author',
+            query: { authorName: quote.quoteAuthor, page: 1 },
+          }"
         >
           <div class="bl_author">
             <p class="bl_author_name">{{ quote.quoteAuthor }}</p>
@@ -135,11 +138,13 @@ export default defineComponent({
 .bl_author_wrapper {
   display: block;
   margin-top: 2rem;
-  padding: 4rem 2rem;
+
   width: 820px;
   box-sizing: border-box;
   cursor: pointer;
   & > a {
+    display: block;
+    padding: 4rem 2rem;
     color: #000;
     text-decoration: none;
   }

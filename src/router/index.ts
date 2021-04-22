@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Random,
   },
   {
-    path: '/author/:authorName',
+    path: '/author',
     name: 'Author',
     component: Author,
     // route level code-splitting
