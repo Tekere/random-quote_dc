@@ -91,7 +91,7 @@ export default defineComponent({
       axios
         .get('https://quote-garden.herokuapp.com/api/v3/quotes/random')
         .then((res) => {
-          this.quote = String(res.data.data[0])
+          this.quote = res.data.data[0]
         })
         .then(() => {
           this.isLoading = false
