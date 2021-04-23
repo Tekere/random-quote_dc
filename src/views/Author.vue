@@ -34,7 +34,9 @@
         </div>
       </div>
     </div>
-    <a @click.prevent="nextPage" href="">next</a>
+
+    <a v-if="currentPage > 1" @click.prevent="prevPage" href="">prev</a>
+    <a v-if="currentPage < maxPage" @click.prevent="nextPage" href="">next</a>
   </div>
 </template>
 
@@ -42,34 +44,39 @@
 import { defineComponent } from 'vue'
 import axios from 'axios'
 import Loading from '@/components/Loading.vue'
+
 export default defineComponent({
   name: 'author',
   components: {
     Loading,
   },
-  data() {
+  data(): {
+    quotes: Array<any>
+    isLoading: boolean
+    currentPage: number
+    maxPage: number
+  } {
     return {
       quotes: [],
       isLoading: true,
       currentPage: 1,
+      maxPage: 0,
     }
   },
 
   created() {
     this.getAuthorQuote(String(this.$route.query.authorName))
   },
-  // beforeRouteUpdate(to, from, next) {
-  //   next()
-  // },
 
   methods: {
     getAuthorQuote(authorName: string): void {
+      this.isLoading = true
       axios
         .get(
           `https://quote-garden.herokuapp.com/api/v3/quotes?author=${authorName}&page=${this.currentPage}`
         )
         .then((res) => {
-          console.log(res)
+          this.maxPage = Number(res.data.pagination.totalPages)
           this.quotes = res.data.data.slice()
         })
         .then(() => {
@@ -77,15 +84,21 @@ export default defineComponent({
         })
     },
     prevPage(): void {
-      this.currentPage--
-    },
-    nextPage(): void {
-      this.currentPage++
-      console.log(this.currentPage)
+      this.currentPage = Number(this.currentPage) - 1
       this.$router.push({
         query: {
-          authorName: this.$route.query.authorName,
-          page: this.currentPage,
+          authorName: String(this.$route.query.authorName),
+          page: Number(this.currentPage),
+        },
+      })
+      this.getAuthorQuote(String(this.$route.query.authorName))
+    },
+    nextPage(): void {
+      this.currentPage = Number(this.currentPage) + 1
+      this.$router.push({
+        query: {
+          authorName: String(this.$route.query.authorName),
+          page: Number(this.currentPage),
         },
       })
       this.getAuthorQuote(String(this.$route.query.authorName))
