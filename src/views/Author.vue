@@ -34,14 +34,39 @@
         </div>
       </div>
     </div>
-
-    <a v-if="currentPage > 1" @click.prevent="prevPage" href="">prev</a>
-    <a v-if="currentPage < maxPage" @click.prevent="nextPage" href="">next</a>
+    <div class="bl_paginate_wrapper">
+      <div class="bl_paginate">
+        <a
+          v-if="currentPage > 1"
+          @click.prevent="prevPage"
+          href=""
+          class="bl_paginate_link prev"
+          >←</a
+        >
+        <a
+          v-for="num in maxPage"
+          :key="num"
+          @click.prevent="paginate(num)"
+          href=""
+          class="bl_paginate_link"
+          :class="{ is_active: num == $route.query.page }"
+          >{{ num }}</a
+        >
+        <a
+          v-if="currentPage < maxPage"
+          @click.prevent="nextPage"
+          href=""
+          class="bl_paginate_link next"
+          >→</a
+        >
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+
 import axios from 'axios'
 import Loading from '@/components/Loading.vue'
 
@@ -85,20 +110,21 @@ export default defineComponent({
     },
     prevPage(): void {
       this.currentPage = Number(this.currentPage) - 1
-      this.$router.push({
-        query: {
-          authorName: String(this.$route.query.authorName),
-          page: Number(this.currentPage),
-        },
-      })
-      this.getAuthorQuote(String(this.$route.query.authorName))
+      this.paginate(this.currentPage)
     },
     nextPage(): void {
       this.currentPage = Number(this.currentPage) + 1
+      this.paginate(this.currentPage)
+    },
+    jumpPage(num: number) {
+      this.currentPage = num
+      this.paginate(num)
+    },
+    paginate(n: number) {
       this.$router.push({
         query: {
           authorName: String(this.$route.query.authorName),
-          page: Number(this.currentPage),
+          page: n,
         },
       })
       this.getAuthorQuote(String(this.$route.query.authorName))
@@ -113,6 +139,7 @@ export default defineComponent({
 }
 .ly_page_author {
   height: auto;
+  padding-bottom: 100px;
 }
 .bl_author_name_wrapper {
   width: 820px;
@@ -128,5 +155,21 @@ export default defineComponent({
 }
 .bl_quote_wrapper_author {
   margin-bottom: 30px;
+}
+.bl_paginate_wrapper {
+  width: 820px;
+  margin: 0 auto;
+}
+.bl_paginate_link {
+  font-size: 20px;
+  padding: 10px 15px;
+  color: #000;
+  text-decoration: none;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+.bl_paginate_link.is_active {
+  background-color: #000;
+  color: #fff;
 }
 </style>
