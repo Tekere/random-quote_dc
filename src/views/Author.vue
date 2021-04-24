@@ -46,19 +46,20 @@
         <a
           v-for="num in maxPage"
           :key="num"
-          @click.prevent="paginate(num)"
+          @click.prevent="jumpPage(num)"
           href=""
           class="bl_paginate_link"
           :class="{ is_active: num == $route.query.page }"
           >{{ num }}</a
         >
         <a
-          v-if="currentPage <= maxPage"
+          v-if="currentPage < maxPage"
           @click.prevent="nextPage"
           href=""
           class="bl_paginate_link next"
           >→</a
         >
+        <pre>{{ currentPage }}</pre>
       </div>
     </div>
   </div>
@@ -91,6 +92,7 @@ export default defineComponent({
 
   created() {
     this.getAuthorQuote(String(this.$route.query.authorName))
+    this.currentPage = Number(this.$route.query.page)
   },
 
   methods: {
