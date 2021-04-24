@@ -53,7 +53,7 @@
           >{{ num }}</a
         >
         <a
-          v-if="currentPage < maxPage"
+          v-if="currentPage <= maxPage"
           @click.prevent="nextPage"
           href=""
           class="bl_paginate_link next"
